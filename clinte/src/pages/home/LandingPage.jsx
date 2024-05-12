@@ -18,7 +18,7 @@ const LandingPage = () => {
             <li>Shop</li>
             <li>Cart</li>
             <li>Contact us</li>
-            <li>Get Started</li>
+            <li onClick={() => navigate('/login')}>Login</li>
           </ul>
         </div>
       </header>
