@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { MongoClient } from 'mongodb';
+import './Login.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -12,35 +15,33 @@ const Login = () => {
         setPassword(e.target.value);
     };
 
+    const handleLogin = async () => {
+        try {
+            const client = new MongoClient('<mongodb_connection_string>');
+            await client.connect();
+
+            const db = client.db('<database_name>');
+            const collection = db.collection('<collection_name>');
+
+            const user = await collection.findOne({ email, password });
+
+            if (user) {
+                // Successful login logic
+                setMessage('Login successful');
+            } else {
+                // Failed login logic
+                setMessage('Login failed');
+            }
+
+            await client.close();
+        } catch (error) {
+            console.error('Error occurred during login:', error);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Add your login logic here
-        const handleLogin = async () => {
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password })
-                });
-
-                if (response.ok) {
-                    // Successful login logic
-                    console.log('Login successful');
-                } else {
-                    // Failed login logic
-                    console.log('Login failed');
-                }
-            } catch (error) {
-                console.error('Error occurred during login:', error);
-            }
-        };
-
-        handleSubmit = (e) => {
-            e.preventDefault();
-            handleLogin();
-        };
+        handleLogin();
     };
 
     return (
@@ -65,6 +66,8 @@ const Login = () => {
 
                 <button type="submit">Login</button>
             </form>
+
+            {message && <p>{message}</p>}
         </div>
     );
 };
