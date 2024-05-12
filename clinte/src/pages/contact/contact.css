@@ -1,0 +1,91 @@
+/* contactForm.css */
+.form-container {
+    max-width: 400px;
+    margin: 40px auto; /* Increased margin for better framing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    background-color: #f9f9f9; /* Soft gray background */
+    border-radius: 8px; /* Rounded corners for the form */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Lighter shadow for subtle depth */
+}
+
+.form-group {
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600; /* Slightly bolder labels for clarity */
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 12px 15px; /* More padding for better text entry space */
+    border: 2px solid #e0e0e0; /* Light gray border */
+    border-radius: 6px; /* Smoother rounded corners */
+    background-color: #fff; /* Ensures the background is white */
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: #007BFF; /* Bright blue focus color */
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.5); /* Soft blue glow */
+    outline: none;
+}
+
+textarea {
+    height: 120px; /* Adjusted for better form symmetry */
+    resize: none;
+}
+
+button[type="submit"] {
+    width: 100%; /* Full-width button */
+    background-color: #007BFF; /* Bright blue to match focus style */
+    color: white;
+    padding: 12px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+button[type="submit"]:active {
+    background-color: #004085; /* Even darker blue when pressed */
+    transform: translateY(1px); /* Simulates a button press */
+}
+.submit-button {
+    width: 100%; /* Full-width button */
+    background-color: #007BFF; /* Bright blue to match focus style */
+    color: white;
+    padding: 12px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.submit-button:active {
+    background-color: #004085; /* Even darker blue when pressed */
+    transform: translateY(1px); /* Simulates a button press */
+}
