@@ -53,18 +53,7 @@ textarea {
     resize: none;
 }
 
-
-
-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-}
-
-button:active {
-    background-color: #004085; /* Even darker blue when pressed */
-    transform: translateY(1px); /* Simulates a button press */
-}
-.button {
+button[type="submit"] {
     width: 100%; /* Full-width button */
     background-color: #007BFF; /* Bright blue to match focus style */
     color: white;
@@ -75,12 +64,32 @@ button:active {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-.button:hover {
+button[type="submit"]:hover {
     background-color: #0056b3; /* Darker blue on hover */
     transform: translateY(-2px); /* Slight lift effect */
 }
 
-.button:active {
+button[type="submit"]:active {
+    background-color: #004085; /* Even darker blue when pressed */
+    transform: translateY(1px); /* Simulates a button press */
+}
+.submit-button {
+    width: 100%; /* Full-width button */
+    background-color: #007BFF; /* Bright blue to match focus style */
+    color: white;
+    padding: 12px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.submit-button:active {
     background-color: #004085; /* Even darker blue when pressed */
     transform: translateY(1px); /* Simulates a button press */
 }

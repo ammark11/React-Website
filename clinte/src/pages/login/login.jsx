@@ -1,73 +1,46 @@
 import React, { useState } from 'react';
-import { MongoClient } from 'mongodb';
-import './Login.css';
+import { Navigate } from 'react-router-dom';
+import './login.css';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleLogin = async () => {
-        try {
-            const client = new MongoClient('<mongodb_connection_string>');
-            await client.connect();
-
-            const db = client.db('<database_name>');
-            const collection = db.collection('<collection_name>');
-
-            const user = await collection.findOne({ email, password });
-
-            if (user) {
-                // Successful login logic
-                setMessage('Login successful');
-            } else {
-                // Failed login logic
-                setMessage('Login failed');
-            }
-
-            await client.close();
-        } catch (error) {
-            console.error('Error occurred during login:', error);
+    const handleLogin = () => {
+        // Perform authentication logic here
+        // Replace the condition below with your actual authentication logic
+        if (username === 'admin' && password === 'password') {
+            setLoggedIn(true);
+        } else {
+            alert('Invalid username or password');
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleLogin();
-    };
+    if (loggedIn) {
+        return <Navigate to="/admin" />;
+    }
 
     return (
-        <div>
+        
+
+        <div className="form-container">
             <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email:</label>
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={handleEmailChange}
-                />
-
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
-
-                <button type="submit">Login</button>
-            </form>
-
-            {message && <p>{message}</p>}
+            <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+            <br />
+            <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <br />
+            <button className="form-container" onClick={handleLogin}>Login</button>
         </div>
     );
 };

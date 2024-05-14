@@ -1,0 +1,45 @@
+.admin-panel {
+    padding: 20px;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+  }
+  
+  .product-item img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .add-product {
+    margin-top: 20px;
+  }
+  
+  .add-product input {
+    display: block;
+    margin: 10px 0;
+    padding: 5px;
+    width: 100%;
+  }
+  
+  .add-product button {
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .add-product button:hover {
+    background-color: #218838;
+  }
+  

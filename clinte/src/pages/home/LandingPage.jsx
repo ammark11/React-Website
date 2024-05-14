@@ -11,15 +11,8 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <header>
-        <div className="container">
-          <a href="#" className="logo">Your <strong>Website</strong></a>
-          <ul className="links">
-            <li>Home</li>
-            <li>Shop</li>
-            <li>Cart</li>
-            <li>Contact us</li>
-            <li onClick={() => navigate('/login')}>Login</li>
-          </ul>
+      <div className="container">
+
         </div>
       </header>
       <div className="content">
