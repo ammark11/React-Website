@@ -20,4 +20,13 @@ router.post('/', async (req, res) => {
         res.status(500).send(err);
     }
 });
+
+router.put('/:id', async (req, res) => {
+    try {
+        const updated = await Product.updateOne({ _id: req.params.id }, { ...req.body }, { new: true });
+        res.send(updated);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
 module.exports = router;
