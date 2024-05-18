@@ -1,116 +1,135 @@
-import React, { useState } from 'react';
-import { PRODUCTS } from '../../products';
-import './admin-panel.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AdminPanel = () => {
-  const [products, setProducts] = useState(PRODUCTS);
-  const [newProduct, setNewProduct] = useState({
-    productName: '',
-    price: '',
-    productImage: '',
-  });
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [updatedProduct, setUpdatedProduct] = useState({
-    productName: '',
-    price: '',
-    productImage: '',
-  });
+    const [items, setItems] = useState([]);
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [picture, setPicture] = useState(null);
+    const [editingItem, setEditingItem] = useState(null);
 
-  const handleAddProduct = () => {
-    const newId = products.length ? products[products.length - 1].id + 1 : 1;
-    setProducts([...products, { ...newProduct, id: newId }]);
-    setNewProduct({ productName: '', price: '', productImage: '' });
-  };
+    useEffect(() => {
+        fetchItems();
+    }, []);
 
-  const handleDeleteProduct = (id) => {
-    setProducts(products.filter((product) => product.id !== id));
-  };
+    const fetchItems = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/items');
+            setItems(response.data);
+        } catch (error) {
+            console.error('Error fetching items:', error);
+        }
+    };
 
-  const handleUpdateProduct = () => {
-    if (selectedProduct) {
-      setProducts(
-        products.map((product) =>
-          product.id === selectedProduct.id
-            ? { ...product, ...updatedProduct }
-            : product
-        )
-      );
-      setSelectedProduct(null);
-      setUpdatedProduct({ productName: '', price: '', productImage: '' });
-    }
-  };
+    const createItem = async () => {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', price);
+        if (picture) {
+            formData.append('picture', picture);
+        }
 
-  const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-    setUpdatedProduct({
-      productName: product.productName,
-      price: product.price,
-      productImage: product.productImage,
-    });
-  };
+        try {
+            await axios.post('http://localhost:5000/api/items', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            setName('');
+            setPrice('');
+            setPicture(null);
+            fetchItems();
+        } catch (error) {
+            console.error('Error creating item:', error);
+        }
+    };
 
-  return (
-    <div className="admin-panel">
-      <h1>Admin Panel</h1>
-      <div className="product-list">
-        {products.map((product) => (
-          <div key={product.id} className="product-item">
-            <img src={product.productImage} alt={product.productName} />
-            <h2>{product.productName}</h2>
-            <p>Price: ${product.price}</p>
-            <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
-            <button onClick={() => handleSelectProduct(product)}>Edit</button>
-          </div>
-        ))}
-      </div>
-      <div className="add-product">
-        <h2>Add New Product</h2>
-        <input
-          type="text"
-          placeholder="Product Name"
-          value={newProduct.productName}
-          onChange={(e) => setNewProduct({ ...newProduct, productName: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Price"
-          value={newProduct.price}
-          onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={newProduct.productImage}
-          onChange={(e) => setNewProduct({ ...newProduct, productImage: e.target.value })}
-        />
-        <button onClick={handleAddProduct}>Add Product</button>
-      </div>
-      {selectedProduct && (
-        <div className="update-product">
-          <h2>Update Product</h2>
-          <input
-            type="text"
-            placeholder="Product Name"
-            value={updatedProduct.productName}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, productName: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            value={updatedProduct.price}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, price: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Image URL"
-            value={updatedProduct.productImage}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, productImage: e.target.value })}
-          />
-          <button onClick={handleUpdateProduct}>Update Product</button>
+    const updateItem = async (id) => {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', price);
+        if (picture) {
+            formData.append('picture', picture);
+        }
+
+        try {
+            await axios.put(`http://localhost:5000/api/items/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            setName('');
+            setPrice('');
+            setPicture(null);
+            setEditingItem(null);
+            fetchItems();
+        } catch (error) {
+            console.error('Error updating item:', error);
+        }
+    };
+
+    const deleteItem = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/items/${id}`);
+            fetchItems();
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (editingItem) {
+            updateItem(editingItem);
+        } else {
+            createItem();
+        }
+    };
+
+    const handleEdit = (item) => {
+        setName(item.name);
+        setPrice(item.price);
+        setEditingItem(item._id);
+    };
+
+    return (
+        <div>
+            <h1>Admin Panel</h1>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+                <input
+                    type="number"
+                    placeholder="Price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    required
+                />
+                <input
+                    type="file"
+                    onChange={(e) => setPicture(e.target.files[0])}
+                />
+                <button type="submit">
+                    {editingItem ? 'Update Item' : 'Create Item'}
+                </button>
+            </form>
+            <ul>
+                {items.map((item) => (
+                    <li key={item._id}>
+                        <img src={`http://localhost:5000/uploads/${item.picture}`} alt={item.name} style={{ width: '100px' }} />
+                        {item.name}: ${item.price}
+                        <button onClick={() => handleEdit(item)}>Edit</button>
+                        <button onClick={() => deleteItem(item._id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default AdminPanel;

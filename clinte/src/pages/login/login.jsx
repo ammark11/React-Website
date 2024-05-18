@@ -8,9 +8,8 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-        // Perform authentication logic here
-        // Replace the condition below with your actual authentication logic
-        if (username === 'admin' && password === 'password') {
+
+        if (username === 'admin' && password === 'admin') {
             setLoggedIn(true);
         } else {
             alert('Invalid username or password');

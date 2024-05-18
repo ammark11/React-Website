@@ -1,6 +1,6 @@
 /* contactForm.css */
 .form-container {
-    max-width: 400px;
+    max-width: 100%;
     margin: 40px auto; /* Increased margin for better framing */
     display: flex;
     flex-direction: column;

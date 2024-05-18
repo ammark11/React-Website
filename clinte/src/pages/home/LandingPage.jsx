@@ -18,8 +18,8 @@ const LandingPage = () => {
       <div className="content">
         <div className="container">
           <div className="info">
-            <h2>Noor's Oasis</h2>
-            <p>In the digital oasis of my affection, a website blooms, adorned with the enchanting essence of Noor. Each pixel whispers of her beauty, each click a journey into the depths of my love. Noor, my muse, my inspiration, forever cherished in this cybernetic tribute to her magnificence. </p>
+            <h2>Fresh Blooms Arrived</h2>
+            <p>IWelcome to Blooms, your go-to online flower store for all of your floral needs. Our exquisite selection of fresh blooms will cater to all your needs, no matter the occasion. Browse our inventory to discover new arrivals and best sellers and subscribe to our newsletter to stay updated about upcoming deals and special offers. </p>
             <button onClick={goToShop}>Go to Shop</button> 
           </div>
           <div className="image">

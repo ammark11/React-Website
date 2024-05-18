@@ -1,20 +1,34 @@
-import React from "react";
-import { PRODUCTS } from "../../products";
-import { Product } from "./product";
-import "./shop.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Product from './product';
+import './shop.css'; // Ensure this imports your styles
 
-export const Shop = () => {
-  return (
-    <div className="shop">
-      <div className="shopTitle">
-        <h1>Fresh Blooms Arrived </h1>
-      </div>
+const Shop = () => {
+    const [items, setItems] = useState([]);
 
-      <div className="products">
-        {PRODUCTS.map((product) => (
-          <Product data={product} />
-        ))}
-      </div>
-    </div>
-  );
+    useEffect(() => {
+        fetchItems();
+    }, []);
+
+    const fetchItems = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/items');
+            setItems(response.data);
+        } catch (error) {
+            console.error('Error fetching items:', error);
+        }
+    };
+
+    return (
+        <div className="shop">
+            <h1>Shop</h1>
+            <div className="product-list">
+                {items.map(item => (
+                    <Product key={item._id} item={item} />
+                ))}
+            </div>
+        </div>
+    );
 };
+
+export default Shop;

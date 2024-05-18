@@ -1,46 +1,36 @@
-import React, { useContext } from "react";
-import { ShopContext } from "../../context/shop-context";
-import { PRODUCTS } from "../../products";
-import { CartItem } from "./cart-item";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { ShopContext } from '../../context/shop-context';
+import CartItem from './cart-item';
+import './cart.css';
 
-import "./cart.css";
-export const Cart = () => {
-  const { cartItems, getTotalCartAmount, checkout } = useContext(ShopContext);
-  const totalAmount = getTotalCartAmount();
-
+const Cart = () => {
+  const { cartItems, items } = useContext(ShopContext);
   const navigate = useNavigate();
 
   return (
     <div className="cart">
-      <div>
-        <h1>Your Cart Items</h1>
-      </div>
-      <div className="cart">
-        {PRODUCTS.map((product) => {
-          if (cartItems[product.id] !== 0) {
-            return <CartItem data={product} />;
+      <h1>Your Cart</h1>
+      <div className="cartItems">
+        {items.map((item) => {
+          if (cartItems[item._id] > 0) {
+            return <CartItem key={item._id} item={item} />;
           }
+          return null;
         })}
       </div>
-
-      {totalAmount > 0 ? (
-        <div className="checkout">
-          <p> Subtotal: ${totalAmount} </p>
-          <button onClick={() => navigate("/")}> Continue Shopping </button>
-          <button
-            onClick={() => {
-              checkout();
-              navigate("/checkout");
-            }}
-          >
-            {" "}
-            Checkout{" "}
-          </button>
-        </div>
-      ) : (
-        <h1> Your Shopping Cart is Empty</h1>
-      )}
+      <div className="checkout">
+        <h2>Total: ${items.reduce((total, item) => total + (item.price * (cartItems[item._id] || 0)), 0)}</h2>
+        <button
+          onClick={() => {
+            navigate('/checkout');
+          }}
+        >
+          Checkout
+        </button>
+      </div>
     </div>
   );
 };
+
+export default Cart;

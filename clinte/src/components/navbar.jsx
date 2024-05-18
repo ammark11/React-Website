@@ -8,7 +8,7 @@ export const Navbar = () => {
     <div className="landing-page">
       <header>
         <div className="container">
-          <a href="#" className="logo">Blooms <strong>Website</strong></a>
+          <a href="/" className="logo">Blooms <strong>Website</strong></a>
           <ul className="links">
             <li onClick={() => navigate('/')}>Home</li>
             <li onClick={() => navigate('/shop')}>Shop</li>
